@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* Club kleuren */
+:root {
+  --color-club-yellow: #FFD700;
+  --color-club-green: #2D7A2D;
+  --color-club-black: #111111;
+  --color-club-white: #FAFAFA;
+}
+
+@theme {
+  --color-club-yellow: #FFD700;
+  --color-club-green: #2D7A2D;
+  --color-club-green-light: #3a9a3a;
+  --color-club-black: #111111;
+  --color-club-white: #FAFAFA;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
