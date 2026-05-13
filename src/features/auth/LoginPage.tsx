@@ -70,7 +70,7 @@ export default function LoginPage() {
                 type="text"
                 value={teamCode}
                 onChange={(e) => setTeamCode(e.target.value)}
-                placeholder="bijv. DOMSTAD2026"
+                placeholder="Vul je teamcode in"
                 className="w-full px-4 py-3 rounded-xl bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-club-green"
               />
               <button
