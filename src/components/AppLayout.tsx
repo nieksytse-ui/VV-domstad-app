@@ -11,6 +11,7 @@ import {
   LogOut,
   RefreshCw,
   Trophy,
+  ClipboardList,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -22,6 +23,7 @@ const NAV_ITEMS = [
   { to: "/statistieken", label: "Statistieken", icon: BarChart3 },
   { to: "/rotatie", label: "Rotatie", icon: RefreshCw },
   { to: "/leaderboards", label: "Leaderboards", icon: Trophy },
+  { to: "/opstelling", label: "Opstelling", icon: ClipboardList },
 ];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>

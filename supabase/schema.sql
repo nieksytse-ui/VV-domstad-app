@@ -171,6 +171,7 @@ alter table public.rotation_swaps enable row level security;
 alter table public.match_stats enable row level security;
 alter table public.motm_votes enable row level security;
 alter table public.invites enable row level security;
+alter table public.lineups enable row level security;
 
 -- Helper functie: haal rol op
 create or replace function public.get_role(user_id uuid)
@@ -242,6 +243,12 @@ create policy "Anon leest actieve invites" on public.invites for select to anon 
 create policy "Admin beheert invites" on public.invites for insert to authenticated with check (get_role(auth.uid()) = 'admin');
 create policy "Admin update invites" on public.invites for update to authenticated using (get_role(auth.uid()) = 'admin');
 
+-- Lineups
+create policy "Iedereen leest opstellingen" on public.lineups for select to authenticated using (true);
+create policy "Admin maakt opstellingen" on public.lineups for insert to authenticated with check (get_role(auth.uid()) = 'admin');
+create policy "Admin update opstellingen" on public.lineups for update to authenticated using (get_role(auth.uid()) = 'admin');
+create policy "Admin verwijdert opstellingen" on public.lineups for delete to authenticated using (get_role(auth.uid()) = 'admin');
+
 -- =============================================
 -- Seed data
 -- =============================================
@@ -257,6 +264,18 @@ values ('DOMSTAD2026', true);
 -- =============================================
 -- Trigger: automatisch player record aanmaken bij registratie
 -- =============================================
+-- Opstellingen
+create table public.lineups (
+  id uuid default gen_random_uuid() primary key,
+  match_id uuid references public.matches(id) on delete cascade unique,
+  formation text not null default '4-3-3',
+  positions jsonb not null default '[]'::jsonb,
+  substitutes uuid[] default '{}',
+  created_by uuid references public.players(id),
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin

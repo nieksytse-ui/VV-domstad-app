@@ -16,6 +16,7 @@ import LeaderboardsPage from "./features/stats/LeaderboardsPage";
 import RotationPage from "./features/rotation/RotationPage";
 import CalendarPage from "./features/calendar/CalendarPage";
 import VotingPage from "./features/voting/VotingPage";
+import LineupPage from "./features/lineup/LineupPage";
 import AdminPage from "./pages/AdminPage";
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
       <Route path="/leaderboards" element={<ProtectedRoute><AppLayout><LeaderboardsPage /></AppLayout></ProtectedRoute>} />
       <Route path="/rotatie" element={<ProtectedRoute><AppLayout><RotationPage /></AppLayout></ProtectedRoute>} />
       <Route path="/stemmen" element={<ProtectedRoute><AppLayout><VotingPage /></AppLayout></ProtectedRoute>} />
+      <Route path="/opstelling" element={<ProtectedRoute><AppLayout><LineupPage /></AppLayout></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute role="admin"><AppLayout><AdminPage /></AppLayout></ProtectedRoute>} />
 
       <Route path="*" element={<Navigate to="/" />} />

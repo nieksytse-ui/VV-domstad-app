@@ -176,6 +176,20 @@ export interface Database {
         Insert: Omit<Database["public"]["Tables"]["invites"]["Row"], "id">;
         Update: Partial<Database["public"]["Tables"]["invites"]["Insert"]>;
       };
+      lineups: {
+        Row: {
+          id: string;
+          match_id: string;
+          formation: string;
+          positions: { player_id: string; x: number; y: number; label: string }[];
+          substitutes: string[];
+          created_by: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["lineups"]["Row"], "id" | "created_at" | "updated_at">;
+        Update: Partial<Database["public"]["Tables"]["lineups"]["Insert"]>;
+      };
     };
     Functions: Record<string, never>;
     Enums: Record<string, never>;
