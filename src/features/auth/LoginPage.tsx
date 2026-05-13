@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { motion } from "framer-motion";
 
 export default function LoginPage() {
+  console.log("Supabase URL:", import.meta.env.VITE_SUPABASE_URL);
   const [step, setStep] = useState<"code" | "email" | "sent">("code");
   const [teamCode, setTeamCode] = useState("");
   const [email, setEmail] = useState("");
@@ -18,10 +19,11 @@ export default function LoginPage() {
       .select("*")
       .eq("code", teamCode.toUpperCase())
       .eq("active", true)
-      .limit(1)
-      .single();
+      .limit(1);
 
-    if (err || !data) {
+    console.log("Invite check:", { data, error: err, code: teamCode.toUpperCase() });
+
+    if (err || !data || data.length === 0) {
       setError("Ongeldige teamcode. Vraag je trainer om de juiste code.");
       setLoading(false);
       return;

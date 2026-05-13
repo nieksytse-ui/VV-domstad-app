@@ -5,10 +5,17 @@ import { motion } from "framer-motion";
 import { Plus, Banknote, Check } from "lucide-react";
 
 const CATEGORIES = [
-  { label: "Te laat", amount: 1 },
-  { label: "Gele kaart", amount: 2 },
-  { label: "Vergeten shirt", amount: 3 },
-  { label: "Rode kaart", amount: 5 },
+  { label: "Te laat verzameltijd", amount: 5 },
+  { label: "Te laat starttijd", amount: 5 },
+  { label: "Te laat reageren (wedstrijd)", amount: 5 },
+  { label: "Te laat reageren (training)", amount: 2.5 },
+  { label: "Geen reden bij reageren", amount: 2.5 },
+  { label: "Afwezig wedstrijd", amount: 1.5 },
+  { label: "Te weinig man en slechte reden", amount: 5 },
+  { label: "Niet opdagen", amount: 25 },
+  { label: "Onnodige gele kaart", amount: 5 },
+  { label: "Later aanwezigheid wijzigen", amount: 5 },
+  { label: "Afmelden zonder reden", amount: 2.5 },
   { label: "Custom", amount: 0 },
 ];
 
