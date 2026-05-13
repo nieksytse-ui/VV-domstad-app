@@ -82,7 +82,7 @@ const FORMATIONS: Record<string, { label: string; x: number; y: number }[]> = {
 
 /* ──────────── Component ──────────── */
 export default function LineupPage() {
-  const { isAdmin } = useAuth();
+  const { isCaptain } = useAuth();
   const [matches, setMatches] = useState<Match[]>([]);
   const [selectedMatchId, setSelectedMatchId] = useState<string>("");
   const [formation, setFormation] = useState("4-3-3");
@@ -177,7 +177,7 @@ export default function LineupPage() {
 
   /* Drag on field */
   const handleFieldMouseDown = (idx: number) => {
-    if (!isAdmin) return;
+    if (!isCaptain) return;
     setDragIdx(idx);
   };
 
@@ -247,7 +247,7 @@ export default function LineupPage() {
           ))}
         </select>
 
-        {isAdmin && (
+        {isCaptain && (
           <select
             className="bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700"
             value={formation}
@@ -308,7 +308,7 @@ export default function LineupPage() {
                   player
                     ? "bg-club-yellow text-club-black border-white"
                     : "bg-gray-700 text-gray-400 border-gray-500 border-dashed"
-                } ${isAdmin ? "cursor-grab active:cursor-grabbing" : ""}`}
+                } ${isCaptain ? "cursor-grab active:cursor-grabbing" : ""}`}
               >
                 {player ? (player.shirt_number ?? "?") : slot.label}
               </div>
@@ -322,7 +322,7 @@ export default function LineupPage() {
       </div>
 
       {/* Assign players (admin) */}
-      {isAdmin && (
+      {isCaptain && (
         <div className="space-y-4">
           {/* Position assignment */}
           <div className="bg-gray-900 rounded-xl p-4 space-y-3">
@@ -399,7 +399,7 @@ export default function LineupPage() {
       )}
 
       {/* Read-only substitutes view for non-admins */}
-      {!isAdmin && substitutes.length > 0 && (
+      {!isCaptain && substitutes.length > 0 && (
         <div className="bg-gray-900 rounded-xl p-4 space-y-2">
           <h3 className="text-sm font-semibold text-gray-300">Wissels</h3>
           <div className="flex flex-wrap gap-2">

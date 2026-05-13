@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../features/auth/AuthProvider";
-import { Settings, Plus, RefreshCw } from "lucide-react";
+import { Settings, Plus, RefreshCw, Shield } from "lucide-react";
+
+type PlayerRow = { id: string; name: string | null; email: string; role: string; shirt_number: number | null };
 
 export default function AdminPage() {
   const { isAdmin } = useAuth();
@@ -10,6 +12,14 @@ export default function AdminPage() {
   const [endDate, setEndDate] = useState("2027-06-30");
   const [inviteCode, setInviteCode] = useState("DOMSTAD2026");
   const [msg, setMsg] = useState("");
+  const [players, setPlayers] = useState<PlayerRow[]>([]);
+
+  const fetchPlayers = async () => {
+    const { data } = await supabase.from("players").select("id, name, email, role, shirt_number").order("shirt_number");
+    setPlayers((data as PlayerRow[]) ?? []);
+  };
+
+  useEffect(() => { fetchPlayers(); }, []);
 
   if (!isAdmin) return <p className="text-red-400">Geen toegang</p>;
 
@@ -45,6 +55,33 @@ export default function AdminPage() {
         <button onClick={createInvite} className="w-full py-3 rounded-xl bg-club-green text-white font-bold hover:bg-club-green-light transition">
           <RefreshCw size={14} className="inline mr-2" /> Code instellen
         </button>
+      </div>
+
+      {/* Rollen beheren */}
+      <div className="bg-gray-900 rounded-2xl p-5 space-y-3">
+        <h3 className="font-semibold flex items-center gap-2"><Shield size={18} /> Rollen beheren</h3>
+        <p className="text-xs text-gray-500">Geef een speler de rol "aanvoerder" zodat deze de opstelling kan beheren.</p>
+        <div className="space-y-2 max-h-64 overflow-y-auto">
+          {players.filter(p => p.role !== 'admin').map((p) => (
+            <div key={p.id} className="flex items-center justify-between bg-gray-800 rounded-xl px-4 py-2">
+              <span className="text-sm text-white">
+                {p.shirt_number ? `#${p.shirt_number} ` : ""}{p.name ?? p.email}
+              </span>
+              <select
+                className="bg-gray-700 text-white text-xs rounded-lg px-2 py-1 border border-gray-600"
+                value={p.role}
+                onChange={async (e) => {
+                  await supabase.from("players").update({ role: e.target.value } as any).eq("id", p.id);
+                  fetchPlayers();
+                  setMsg(`Rol van ${p.name ?? p.email} gewijzigd naar ${e.target.value}`);
+                }}
+              >
+                <option value="player">Speler</option>
+                <option value="aanvoerder">Aanvoerder</option>
+              </select>
+            </div>
+          ))}
+        </div>
       </div>
 
       {msg && <p className="text-green-400 text-sm text-center bg-green-900/20 rounded-xl p-3">{msg}</p>}

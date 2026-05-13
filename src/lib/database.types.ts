@@ -8,7 +8,7 @@ export interface Database {
           id: string;
           email: string;
           name: string | null;
-          role: "admin" | "player";
+          role: "admin" | "aanvoerder" | "player";
           shirt_number: number | null;
           position: string | null;
           photo_url: string | null;

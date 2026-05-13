@@ -63,6 +63,11 @@ export default function LoginPage() {
           <p className="text-gray-400 mt-2">Welkom bij de teamapp</p>
         </div>
 
+        {/* Joachim QR */}
+        <div className="rounded-2xl overflow-hidden">
+          <img src="/joachim-qr.jpeg" alt="Joachim QR" className="w-full h-auto object-cover rounded-2xl" />
+        </div>
+
         <div className="bg-gray-900 rounded-2xl p-6 space-y-4">
           {step === "code" && (
             <>

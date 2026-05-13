@@ -12,7 +12,7 @@ export type PlayerProfile = {
   id: string;
   email: string;
   name: string | null;
-  role: "admin" | "player";
+  role: "admin" | "aanvoerder" | "player";
   shirt_number: number | null;
   position: string | null;
   photo_url: string | null;
@@ -25,6 +25,7 @@ type AuthContextType = {
   profile: PlayerProfile | null;
   loading: boolean;
   isAdmin: boolean;
+  isCaptain: boolean;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
@@ -80,6 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         profile,
         loading,
         isAdmin: profile?.role === "admin",
+        isCaptain: profile?.role === "aanvoerder" || profile?.role === "admin",
         signOut,
         refreshProfile,
       }}

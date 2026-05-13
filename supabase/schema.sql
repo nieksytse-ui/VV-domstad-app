@@ -17,7 +17,7 @@ create table public.players (
   id uuid primary key references auth.users(id) on delete cascade,
   email text not null,
   name text,
-  role text not null default 'player' check (role in ('admin', 'player')),
+  role text not null default 'player' check (role in ('admin', 'aanvoerder', 'player')),
   shirt_number int,
   position text,
   photo_url text,
@@ -243,11 +243,11 @@ create policy "Anon leest actieve invites" on public.invites for select to anon 
 create policy "Admin beheert invites" on public.invites for insert to authenticated with check (get_role(auth.uid()) = 'admin');
 create policy "Admin update invites" on public.invites for update to authenticated using (get_role(auth.uid()) = 'admin');
 
--- Lineups
+-- Lineups (aanvoerder + admin)
 create policy "Iedereen leest opstellingen" on public.lineups for select to authenticated using (true);
-create policy "Admin maakt opstellingen" on public.lineups for insert to authenticated with check (get_role(auth.uid()) = 'admin');
-create policy "Admin update opstellingen" on public.lineups for update to authenticated using (get_role(auth.uid()) = 'admin');
-create policy "Admin verwijdert opstellingen" on public.lineups for delete to authenticated using (get_role(auth.uid()) = 'admin');
+create policy "Aanvoerder/admin maakt opstellingen" on public.lineups for insert to authenticated with check (get_role(auth.uid()) in ('admin', 'aanvoerder'));
+create policy "Aanvoerder/admin update opstellingen" on public.lineups for update to authenticated using (get_role(auth.uid()) in ('admin', 'aanvoerder'));
+create policy "Aanvoerder/admin verwijdert opstellingen" on public.lineups for delete to authenticated using (get_role(auth.uid()) in ('admin', 'aanvoerder'));
 
 -- =============================================
 -- Seed data
@@ -294,3 +294,20 @@ create trigger on_auth_user_created
 -- voer dit uit om ze admin te maken:
 -- =============================================
 -- UPDATE public.players SET role = 'admin' WHERE email IN ('admin1@example.com', 'admin2@example.com');
+
+-- =============================================
+-- Wekelijkse lineup reset (elke maandag 00:00 UTC)
+-- =============================================
+create or replace function public.reset_lineups_weekly()
+returns void as $$
+begin
+  delete from public.lineups
+  where match_id in (
+    select id from public.matches where date < current_date
+  );
+end;
+$$ language plpgsql security definer;
+
+-- Activeer pg_cron en schedule de reset
+-- Voer dit uit in de Supabase SQL Editor:
+-- select cron.schedule('reset-lineups-weekly', '0 0 * * 1', 'select public.reset_lineups_weekly()');

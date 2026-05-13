@@ -151,6 +151,11 @@ export default function DashboardPage() {
         Hoi {profile?.name?.split(" ")[0] ?? "speler"} 👋
       </h2>
 
+      {/* Teamfoto */}
+      <div className="rounded-2xl overflow-hidden">
+        <img src="/teamfoto.jpeg" alt="Teamfoto v.v. Domstad" className="w-full h-auto object-cover rounded-2xl" />
+      </div>
+
       {/* Volgende event */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
