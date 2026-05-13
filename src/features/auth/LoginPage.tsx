@@ -42,7 +42,8 @@ export default function LoginPage() {
       },
     });
     if (err) {
-      setError("Kon geen magic link versturen. Probeer het opnieuw.");
+      console.error("OTP error:", err);
+      setError(`Fout: ${err.message}`);
       setLoading(false);
       return;
     }
