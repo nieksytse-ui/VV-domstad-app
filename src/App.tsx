@@ -17,6 +17,7 @@ import RotationPage from "./features/rotation/RotationPage";
 import CalendarPage from "./features/calendar/CalendarPage";
 import VotingPage from "./features/voting/VotingPage";
 import LineupPage from "./features/lineup/LineupPage";
+import ResetPasswordPage from "./features/auth/ResetPasswordPage";
 import AdminPage from "./pages/AdminPage";
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
     <Routes>
       <Route path="/login" element={user ? <Navigate to="/" /> : <LoginPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
+      <Route path="/reset-wachtwoord" element={<ResetPasswordPage />} />
 
       {/* Protected routes */}
       <Route path="/" element={<ProtectedRoute><AppLayout><DashboardPage /></AppLayout></ProtectedRoute>} />

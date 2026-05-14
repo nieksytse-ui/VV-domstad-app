@@ -152,8 +152,8 @@ export default function DashboardPage() {
       </h2>
 
       {/* Teamfoto */}
-      <div className="rounded-2xl overflow-hidden">
-        <img src="/teamfoto.jpeg" alt="Teamfoto v.v. Domstad" className="w-full h-auto object-cover rounded-2xl" />
+      <div className="rounded-2xl overflow-hidden max-h-40 md:max-h-56">
+        <img src="/teamfoto.jpeg" alt="Teamfoto v.v. Domstad" className="w-full h-full object-cover rounded-2xl" />
       </div>
 
       {/* Volgende event */}

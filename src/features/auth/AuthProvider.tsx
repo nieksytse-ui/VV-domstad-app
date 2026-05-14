@@ -59,10 +59,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, s) => {
+    } = supabase.auth.onAuthStateChange((event, s) => {
       setSession(s);
       if (s?.user) fetchProfile(s.user.id);
       else setProfile(null);
+
+      // Redirect naar reset-pagina bij wachtwoord recovery
+      if (event === "PASSWORD_RECOVERY") {
+        window.location.href = "/reset-wachtwoord";
+      }
     });
 
     return () => subscription.unsubscribe();
