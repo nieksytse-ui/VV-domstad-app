@@ -190,6 +190,21 @@ export interface Database {
         Insert: Omit<Database["public"]["Tables"]["lineups"]["Row"], "id" | "created_at" | "updated_at">;
         Update: Partial<Database["public"]["Tables"]["lineups"]["Insert"]>;
       };
+      activities: {
+        Row: {
+          id: string;
+          season_id: string | null;
+          title: string;
+          date: string;
+          time: string | null;
+          location: string | null;
+          notes: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["activities"]["Row"], "id" | "created_at">;
+        Update: Partial<Database["public"]["Tables"]["activities"]["Insert"]>;
+      };
     };
     Functions: Record<string, never>;
     Enums: Record<string, never>;

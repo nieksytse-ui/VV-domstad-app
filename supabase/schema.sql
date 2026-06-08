@@ -154,6 +154,19 @@ create table public.invites (
   active boolean default true
 );
 
+-- Activiteiten
+create table public.activities (
+  id uuid default gen_random_uuid() primary key,
+  season_id uuid references public.seasons(id),
+  title text not null,
+  date date not null,
+  time text,
+  location text,
+  notes text,
+  created_by uuid references public.players(id),
+  created_at timestamptz default now()
+);
+
 -- =============================================
 -- Row Level Security (RLS)
 -- =============================================
@@ -172,6 +185,7 @@ alter table public.match_stats enable row level security;
 alter table public.motm_votes enable row level security;
 alter table public.invites enable row level security;
 alter table public.lineups enable row level security;
+alter table public.activities enable row level security;
 
 -- Helper functie: haal rol op
 create or replace function public.get_role(user_id uuid)
@@ -248,6 +262,12 @@ create policy "Iedereen leest opstellingen" on public.lineups for select to auth
 create policy "Aanvoerder/admin maakt opstellingen" on public.lineups for insert to authenticated with check (get_role(auth.uid()) in ('admin', 'aanvoerder'));
 create policy "Aanvoerder/admin update opstellingen" on public.lineups for update to authenticated using (get_role(auth.uid()) in ('admin', 'aanvoerder'));
 create policy "Aanvoerder/admin verwijdert opstellingen" on public.lineups for delete to authenticated using (get_role(auth.uid()) in ('admin', 'aanvoerder'));
+
+-- Activities
+create policy "Iedereen leest activiteiten" on public.activities for select to authenticated using (true);
+create policy "Admin maakt activiteiten" on public.activities for insert to authenticated with check (get_role(auth.uid()) = 'admin');
+create policy "Admin update activiteiten" on public.activities for update to authenticated using (get_role(auth.uid()) = 'admin');
+create policy "Admin verwijdert activiteiten" on public.activities for delete to authenticated using (get_role(auth.uid()) = 'admin');
 
 -- =============================================
 -- Seed data
