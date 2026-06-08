@@ -81,6 +81,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main content */}
       <main className="md:ml-60 pb-20 md:pb-6 min-h-screen">
+        {/* Mobile top header */}
+        <header className="md:hidden sticky top-0 z-30 flex items-center justify-between bg-gray-950 border-b border-gray-800 px-4 py-3 safe-area-pt">
+          <div>
+            <h1 className="text-lg font-bold text-club-yellow leading-none">v.v. Domstad</h1>
+            {profile && (
+              <p className="text-[11px] text-gray-500 mt-0.5">
+                {profile.name}{profile.shirt_number ? ` — #${profile.shirt_number}` : ""}
+              </p>
+            )}
+          </div>
+          <button
+            onClick={signOut}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-gray-800 transition text-xs font-medium"
+          >
+            <LogOut size={16} />
+            Uitloggen
+          </button>
+        </header>
+
         <div className="max-w-4xl mx-auto p-4 md:p-8">{children}</div>
       </main>
 

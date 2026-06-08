@@ -31,3 +31,11 @@ body {
   background: #333;
   border-radius: 3px;
 }
+
+/* Safe area insets (notch / dynamic island / home indicator) */
+.safe-area-pt {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-area-pb {
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+}
