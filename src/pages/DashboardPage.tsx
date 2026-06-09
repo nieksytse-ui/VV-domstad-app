@@ -151,19 +151,6 @@ export default function DashboardPage() {
         Hoi {profile?.name?.split(" ")[0] ?? "speler"} 👋
       </h2>
 
-      {/* Foto collage */}
-      <div className="grid grid-cols-2 gap-2">
-        <div className="col-span-2 rounded-2xl overflow-hidden">
-          <img src="/teamfoto.jpeg" alt="Teamfoto v.v. Domstad" className="w-full h-auto rounded-2xl" style={{ marginTop: "-40%" }} />
-        </div>
-        <div className="rounded-2xl overflow-hidden">
-          <img src="/groepsfoto.jpeg" alt="Groepsfoto" className="w-full h-auto rounded-2xl" />
-        </div>
-        <div className="rounded-2xl overflow-hidden">
-          <img src="/tycho.jpeg" alt="Tycho" className="w-full h-auto rounded-2xl" />
-        </div>
-      </div>
-
       {/* Volgende event */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}

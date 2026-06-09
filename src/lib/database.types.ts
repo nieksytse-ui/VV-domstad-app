@@ -16,8 +16,11 @@ export interface Database {
           season_id: string | null;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["players"]["Row"], "created_at">;
+        Insert: Omit<Database["public"]["Tables"]["players"]["Row"], "created_at" | "season_id"> & {
+          season_id?: string | null;
+        };
         Update: Partial<Database["public"]["Tables"]["players"]["Insert"]>;
+        Relationships: [];
       };
       seasons: {
         Row: {
@@ -30,6 +33,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["seasons"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["seasons"]["Insert"]>;
+        Relationships: [];
       };
       trainings: {
         Row: {
@@ -44,12 +48,14 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["trainings"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["trainings"]["Insert"]>;
+        Relationships: [];
       };
       matches: {
         Row: {
           id: string;
           season_id: string;
           date: string;
+          time: string;
           opponent: string;
           home_away: "thuis" | "uit";
           location: string;
@@ -59,6 +65,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["matches"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["matches"]["Insert"]>;
+        Relationships: [];
       };
       rsvps: {
         Row: {
@@ -71,6 +78,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["rsvps"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["rsvps"]["Insert"]>;
+        Relationships: [];
       };
       fines: {
         Row: {
@@ -93,6 +101,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["fines"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["fines"]["Insert"]>;
+        Relationships: [];
       };
       announcements: {
         Row: {
@@ -105,6 +114,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["announcements"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["announcements"]["Insert"]>;
+        Relationships: [];
       };
       announcement_reactions: {
         Row: {
@@ -115,6 +125,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["announcement_reactions"]["Row"], "id">;
         Update: Partial<Database["public"]["Tables"]["announcement_reactions"]["Insert"]>;
+        Relationships: [];
       };
       rotation_cycles: {
         Row: {
@@ -125,6 +136,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["rotation_cycles"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["rotation_cycles"]["Insert"]>;
+        Relationships: [];
       };
       rotation_swaps: {
         Row: {
@@ -138,8 +150,11 @@ export interface Database {
           created_at: string;
           resolved_at: string | null;
         };
-        Insert: Omit<Database["public"]["Tables"]["rotation_swaps"]["Row"], "id" | "created_at">;
+        Insert: Omit<Database["public"]["Tables"]["rotation_swaps"]["Row"], "id" | "created_at" | "resolved_at"> & {
+          resolved_at?: string | null;
+        };
         Update: Partial<Database["public"]["Tables"]["rotation_swaps"]["Insert"]>;
+        Relationships: [];
       };
       match_stats: {
         Row: {
@@ -153,6 +168,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["match_stats"]["Row"], "id">;
         Update: Partial<Database["public"]["Tables"]["match_stats"]["Insert"]>;
+        Relationships: [];
       };
       motm_votes: {
         Row: {
@@ -163,6 +179,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["motm_votes"]["Row"], "id">;
         Update: Partial<Database["public"]["Tables"]["motm_votes"]["Insert"]>;
+        Relationships: [];
       };
       invites: {
         Row: {
@@ -175,6 +192,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["invites"]["Row"], "id">;
         Update: Partial<Database["public"]["Tables"]["invites"]["Insert"]>;
+        Relationships: [];
       };
       lineups: {
         Row: {
@@ -189,6 +207,7 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["lineups"]["Row"], "id" | "created_at" | "updated_at">;
         Update: Partial<Database["public"]["Tables"]["lineups"]["Insert"]>;
+        Relationships: [];
       };
       activities: {
         Row: {
@@ -204,9 +223,17 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["activities"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["activities"]["Insert"]>;
+        Relationships: [];
       };
     };
-    Functions: Record<string, never>;
+    Views: Record<string, never>;
+    Functions: {
+      email_exists: {
+        Args: { check_email: string };
+        Returns: boolean;
+      };
+    };
     Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }

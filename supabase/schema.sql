@@ -331,3 +331,20 @@ $$ language plpgsql security definer;
 -- Activeer pg_cron en schedule de reset
 -- Voer dit uit in de Supabase SQL Editor:
 -- select cron.schedule('reset-lineups-weekly', '0 0 * * 1', 'select public.reset_lineups_weekly()');
+
+-- =============================================
+-- Check of een e-mailadres al een account heeft (voor login flow)
+-- Geeft alleen true/false terug, lekt geen data. Aanroepbaar door anon.
+-- =============================================
+create or replace function public.email_exists(check_email text)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists(
+    select 1 from auth.users where lower(email) = lower(check_email)
+  );
+$$;
+
+grant execute on function public.email_exists(text) to anon, authenticated;
